@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">ghtk-recycler-view</string>
+    <string name="title_home">Trang chủ</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Thông báo</string>
+    <string name="phone">Phone</string>
+    <string name="address">Address</string>
+    <string name="tuvangia">Tư vấn giá</string>
+    <string name="heoo">Heoo</string>
+    <string name="huong">Hương</string>
+    <string name="okipp">okipp</string>
+    <string name="detail">Detail</string>
+    <string name="push_back">Đẩy lại</string>
+    <string name="xin_loi_vi_su_bat_tien">Xin lỗi vì sự bất tiện này, để xử lý bạn vui lòng đẩy lại đơn hàng</string>
+    <string name="order">Đơn hàng</string>
+    <string name="select_order">Chọn ĐH</string>
+    <string name="search">Tìm</string>
+    <string name="sos_now">sos_now</string>
+    <string name="bbs"><![CDATA[bbs > 20kg]]></string>
+    <string name="exp"><![CDATA[exp < 20kg]]></string>
+    <string name="xfast">xfast</string>
+</resources>
