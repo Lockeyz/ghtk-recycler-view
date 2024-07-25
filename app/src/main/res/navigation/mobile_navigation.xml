@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="bdl.lockey.ghtk_recycler_view.ui.dashboard.DashboardFragment"
+        android:name="bdl.lockey.ghtk_recycler_view.OrderFragment"
         android:label="Đơn hàng"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_order" />
 
     <fragment
         android:id="@+id/navigation_notifications"

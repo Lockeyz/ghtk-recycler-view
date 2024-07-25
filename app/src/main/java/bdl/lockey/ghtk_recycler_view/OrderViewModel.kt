@@ -5,10 +5,40 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class OrderViewModel: ViewModel() {
-    private val _order = MutableLiveData<MutableList<Order>>()
-    val order: LiveData<MutableList<Order>> get() = _order
+    private val _orderList = MutableLiveData<MutableList<Order>>()
+    val orderList: LiveData<MutableList<Order>> get() = _orderList
 
     fun setOrder(order: MutableList<Order>) {
-        _order.value = order
+        _orderList.value = order
+    }
+
+    private var currentPage = 0
+    private var isLoading = false
+
+    init {
+        loadMoreItems()
+    }
+
+    fun refresh() {
+        currentPage = 0
+        _orderList.value = DataSource().getDataSource().take(20).toMutableList()
+        loadMoreItems()
+    }
+
+
+    fun loadMoreItems() {
+//        if (isLoading) return
+//
+//        isLoading = true
+//        _orderList.value = _orderList.value?.plus(ListOrder.Loading)
+//
+//        // Simulate network call or database query
+//        viewModelScope.launch {
+//            delay(2000) // Simulate network delay
+//            val newItems = List(20) { ListItem.Item("Item ${currentPage * 20 + it}") }
+//            currentPage++
+//            _orderList.value = _orderList.value?.dropLast(1)?.plus(newItems)
+//            isLoading = false
+//        }
     }
 }

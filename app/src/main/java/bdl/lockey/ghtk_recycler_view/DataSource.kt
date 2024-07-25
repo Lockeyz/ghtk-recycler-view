@@ -1,8 +1,8 @@
 package bdl.lockey.ghtk_recycler_view
 
 class DataSource {
-    fun getDataSource(): List<Order> {
-        return listOf(
+    fun getDataSource(): MutableList<Order> {
+        return mutableListOf(
             Order(1, "Pham Thu Phuong", false, "22/02/2024", "0912123434",
                 "Mỹ phẩm", 0, "", false),
             Order(2, "Nguyen Thanh Thao", true, "22/02/2024", "098765432",

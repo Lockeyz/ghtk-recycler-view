@@ -74,10 +74,6 @@ class OrderAdapter(private val dataset: List<Order>) : RecyclerView.Adapter<Recy
         }
     }
 
-
-
-
-
     override fun getItemViewType(position: Int): Int {
         return if (dataset[position].isDeal) {
             VIEW_TYPE_DEAL
