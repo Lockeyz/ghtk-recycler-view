@@ -56,7 +56,7 @@ class OrderFragment : Fragment() {
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             binding.swipeRefreshLayout.isRefreshing = false
-            viewModel.orderList
+            viewModel.refresh()
             orderAdapter.notifyDataSetChanged()
         }
 

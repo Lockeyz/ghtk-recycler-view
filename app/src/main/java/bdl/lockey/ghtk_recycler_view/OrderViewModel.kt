@@ -4,12 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class OrderViewModel: ViewModel() {
+class OrderViewModel : ViewModel() {
     private val _orderList = MutableLiveData<MutableList<Order>>()
     val orderList: LiveData<MutableList<Order>> get() = _orderList
 
     fun setOrder() {
-        _orderList.value = DataSource().getDataSource().reversed().toMutableList()
+        _orderList.value = DataSource().getDataSource()
+            .reversed().take(20).toMutableList()
     }
 
     private var currentPage = 0
