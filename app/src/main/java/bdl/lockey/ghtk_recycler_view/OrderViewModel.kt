@@ -22,7 +22,8 @@ class OrderViewModel : ViewModel() {
 
     fun refresh() {
         currentPage = 0
-        _orderList.value = DataSource().getDataSource().take(20).toMutableList()
+        _orderList.value = DataSource().getDataSource()
+            .reversed().take(20).toMutableList()
         loadMoreItems()
     }
 
