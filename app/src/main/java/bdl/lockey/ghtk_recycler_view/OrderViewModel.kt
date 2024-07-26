@@ -8,8 +8,8 @@ class OrderViewModel: ViewModel() {
     private val _orderList = MutableLiveData<MutableList<Order>>()
     val orderList: LiveData<MutableList<Order>> get() = _orderList
 
-    fun setOrder(order: MutableList<Order>) {
-        _orderList.value = order
+    fun setOrder() {
+        _orderList.value = DataSource().getDataSource().reversed().toMutableList()
     }
 
     private var currentPage = 0

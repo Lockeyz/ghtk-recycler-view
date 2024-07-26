@@ -1,19 +1,13 @@
 package bdl.lockey.ghtk_recycler_view
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
 import bdl.lockey.ghtk_recycler_view.databinding.ItemDealBinding
 import bdl.lockey.ghtk_recycler_view.databinding.ItemNotDealBinding
-import java.time.LocalDate
-import java.time.temporal.ChronoUnit
 
-class OrderAdapter(private val dataset: List<Order>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class OrderAdapter(private var dataset: MutableList<Order>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class ItemDealViewHolder(private val binding: ItemDealBinding) : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
@@ -62,28 +56,30 @@ class OrderAdapter(private val dataset: List<Order>) : RecyclerView.Adapter<Recy
     }
 
     override fun getItemCount(): Int {
-        return dataset.size
+        return dataset?.size ?: 0
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val item = dataset[position]
-        if (item.isDeal) {
-            (holder as ItemDealViewHolder).bind(item)
-        } else {
-            (holder as ItemNotDealViewHolder).bind(item)
+        val item = dataset?.get(position)
+        when (holder) {
+            is ItemNotDealViewHolder -> item?.let { holder.bind(it) }
+            is ItemDealViewHolder -> item?.let { holder.bind(it) }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (dataset[position].isDeal) {
-            VIEW_TYPE_DEAL
-        } else {
-            VIEW_TYPE_NOT_DEAL
+        return when (dataset!![position].isDeal) {
+            true -> VIEW_TYPE_DEAL
+            false -> VIEW_TYPE_NOT_DEAL
         }
     }
 
     companion object {
         const val VIEW_TYPE_NOT_DEAL = 0
         const val VIEW_TYPE_DEAL = 1
+    }
+
+    fun update(item: MutableList<Order>){
+        dataset = item
     }
 }
