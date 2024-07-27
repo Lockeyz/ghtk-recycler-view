@@ -163,6 +163,18 @@ class DataSource {
                 "Mỹ phẩm", 0, "", false),
             Order(80, "Nguyen Thanh Thao", true, "22/02/2024", "098765432",
                 "Đồ gia dụng", 10000, "Nguyen Trai, Ha Noi", true ),
+            Order(81, "Pham Thu Phuong", false, "22/02/2024", "0912123434",
+                "Mỹ phẩm", 0, "", false),
+            Order(82, "Nguyen Thanh Thao", true, "22/02/2024", "098765432",
+                "Đồ gia dụng", 10000, "Nguyen Trai, Ha Noi", true ),
+            Order(83, "Pham Thu Phuong", false, "22/02/2024", "0912123434",
+                "Mỹ phẩm", 0, "", false),
+            Order(84, "Nguyen Thanh Thao", true, "22/02/2024", "098765432",
+                "Đồ gia dụng", 10000, "Nguyen Trai, Ha Noi", true ),
+            Order(85, "Pham Thu Phuong", false, "22/02/2024", "0912123434",
+                "Mỹ phẩm", 0, "", false),
+            Order(86, "Nguyen Thanh Thao", true, "22/02/2024", "098765432",
+                "Đồ gia dụng", 10000, "Nguyen Trai, Ha Noi", true ),
         )
     }
 }

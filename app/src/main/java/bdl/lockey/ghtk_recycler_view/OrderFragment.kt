@@ -40,8 +40,6 @@ class OrderFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.setOrder()
-
         viewModel.orderList.observe(viewLifecycleOwner) {
             orderAdapter = OrderAdapter(it)
             binding.recyclerView.adapter = orderAdapter
@@ -51,7 +49,7 @@ class OrderFragment : Fragment() {
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             binding.swipeRefreshLayout.isRefreshing = false
-            viewModel.refresh()
+            refresh()
             orderAdapter.notifyDataSetChanged()
         }
 
@@ -63,26 +61,33 @@ class OrderFragment : Fragment() {
                 val totalItemCount = layoutManager.itemCount
                 val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
 
-                if (!isLoading && totalItemCount <= (lastVisibleItem + 5)) {
+                if (!isLoading && totalItemCount <= (lastVisibleItem + 1)
+                    && totalItemCount < DataSource().getDataSource().size) {
                     loadMoreItems()
-                    isLoading = true
+                    orderAdapter.notifyDataSetChanged()
+                    isLoading = false
                 }
 
             }
         })
     }
 
+    // Load more moi lan them 20 item
     @SuppressLint("NotifyDataSetChanged")
     private fun loadMoreItems() {
         val start = currentPage * pageSize
-        val end = start + pageSize
+        val end = minOf(start + pageSize, DataSource().getDataSource().size)
         val newItems = DataSource().getDataSource().reversed().subList(start, end)
         viewModel.orderList.value?.addAll(newItems)
-
-        orderAdapter.notifyDataSetChanged()
         currentPage ++
-        isLoading = false
         Toast.makeText(requireContext(), "Load more", Toast.LENGTH_SHORT).show()
+    }
+
+    // Moi khi co du lieu moi, se lay 20 phan tu dau tien cua du lieu moi va dat lai current page la 1
+    private fun refresh() {
+        currentPage = 1
+        viewModel.orderList.value?.addAll(DataSource().getDataSource()
+            .reversed().take(20).toMutableList())
     }
 
 
