@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import bdl.lockey.ghtk_recycler_view.databinding.ItemDealBinding
 import bdl.lockey.ghtk_recycler_view.databinding.ItemNotDealBinding
 
-class OrderAdapter(private var dataset: MutableList<Order>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class OrderAdapter(private var dataset: MutableList<Order>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class ItemDealViewHolder(private val binding: ItemDealBinding) : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
@@ -56,19 +56,19 @@ class OrderAdapter(private var dataset: MutableList<Order>?) : RecyclerView.Adap
     }
 
     override fun getItemCount(): Int {
-        return dataset?.size ?: 0
+        return dataset.size ?: 0
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val item = dataset?.get(position)
+        val item = dataset[position]
         when (holder) {
-            is ItemNotDealViewHolder -> item?.let { holder.bind(it) }
-            is ItemDealViewHolder -> item?.let { holder.bind(it) }
+            is ItemNotDealViewHolder -> item.let { holder.bind(it) }
+            is ItemDealViewHolder -> item.let { holder.bind(it) }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (dataset!![position].isDeal) {
+        return when (dataset[position].isDeal) {
             true -> VIEW_TYPE_DEAL
             false -> VIEW_TYPE_NOT_DEAL
         }
@@ -79,7 +79,9 @@ class OrderAdapter(private var dataset: MutableList<Order>?) : RecyclerView.Adap
         const val VIEW_TYPE_DEAL = 1
     }
 
-    fun update(item: MutableList<Order>){
-        dataset = item
+    @SuppressLint("NotifyDataSetChanged")
+    fun update(item: List<Order>){
+        dataset.addAll(item)
+        notifyDataSetChanged()
     }
 }

@@ -6,8 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import bdl.lockey.ghtk_recycler_view.databinding.FragmentOrderBinding
@@ -19,7 +21,10 @@ class OrderFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var orderAdapter: OrderAdapter
-    private lateinit var list: MutableList<Order>
+    private var isLoading = false
+    private var currentPage = 1
+    private val pageSize = 20
+
 
     private val viewModel: OrderViewModel by viewModels()
 
@@ -35,15 +40,6 @@ class OrderFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        list = DataSource().getDataSource()
-//        orderAdapter = OrderAdapter(list)
-//        binding.recyclerView.adapter = orderAdapter
-//        orderAdapter.notifyDataSetChanged()
-
-
-
-        Log.d("orderList", viewModel.orderList.value?.size.toString())
-
         viewModel.setOrder()
 
         viewModel.orderList.observe(viewLifecycleOwner) {
@@ -52,7 +48,6 @@ class OrderFragment : Fragment() {
             orderAdapter.notifyDataSetChanged()
         }
         Log.d("orderList", viewModel.orderList.value?.size.toString())
-
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             binding.swipeRefreshLayout.isRefreshing = false
@@ -64,32 +59,32 @@ class OrderFragment : Fragment() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val totalItemCount = layoutManager.itemCount
+                val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
+
+                if (!isLoading && totalItemCount <= (lastVisibleItem + 5)) {
+                    loadMoreItems()
+                    isLoading = true
+                }
+
             }
         })
     }
 
-//    private fun loadMore() {
-////        list.add(null)
-//        orderAdapter.notifyItemInserted(list.size - 1)
-//
-//
-//        val handler: Handler = Handler()
-//        handler.postDelayed(Runnable {
-//            rowsArrayList.remove(rowsArrayList.size() - 1)
-//            val scrollPosition: Int = rowsArrayList.size()
-//            recyclerViewAdapter.notifyItemRemoved(scrollPosition)
-//            var currentSize = scrollPosition
-//            val nextLimit = currentSize + 10
-//
-//            while (currentSize - 1 < nextLimit) {
-//                rowsArrayList.add("Item $currentSize")
-//                currentSize++
-//            }
-//
-//            recyclerViewAdapter.notifyDataSetChanged()
-//            isLoading = false
-//        }, 2000)
-//    }
+    @SuppressLint("NotifyDataSetChanged")
+    private fun loadMoreItems() {
+        val start = currentPage * pageSize
+        val end = start + pageSize
+        val newItems = DataSource().getDataSource().reversed().subList(start, end)
+        viewModel.orderList.value?.addAll(newItems)
+
+        orderAdapter.notifyDataSetChanged()
+        currentPage ++
+        isLoading = false
+        Toast.makeText(requireContext(), "Load more", Toast.LENGTH_SHORT).show()
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
